@@ -1,8 +1,6 @@
 import bcrypt from "bcrypt";
 
-const users = [
-
-]
+export const users = [];
 
 export const createUser = async (req, res) => {
   try {
@@ -11,9 +9,28 @@ export const createUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    users.push()
+    newUserData.password = hashedPassword;
+    newUserData.createdAt = new Date().toISOString();
 
-    res.send("helll");
+    users.push(newUserData);
+
+    res.status(201).json({
+      success: true,
+      message: "User created successfully",
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+};
+
+export const getAllUsers = async (req, res) => {
+  try {
+    res.status(200).json({
+      success: true,
+      users,
+    });
   } catch (err) {
     return res.status(500).json({
       message: err.message,
