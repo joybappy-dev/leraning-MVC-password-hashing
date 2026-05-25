@@ -1,0 +1,15 @@
+bcrypt
+↓
+JWT
+↓
+auth middleware
+↓
+authorization
+↓
+advanced mongoose
+↓
+validation
+↓
+file upload
+↓
+deployment
