@@ -1,12 +1,13 @@
 import bcrypt from "bcrypt";
-import { users } from "./userControllers.js";
+import User from "../models/User.model.js";
 
 export const loginUser = async (req, res) => {
   try {
     const { email: requestedEmmail, password: plainTextPassword } = req.body;
 
     //FIND USER USING EMAIL FROM USERS COLLECTION
-    const user = users.find((user) => user.email === requestedEmmail);
+    const user = await User.findOne({ email: requestedEmmail });
+
     if (!user) {
       return res.send("Invalid Email Address");
     }

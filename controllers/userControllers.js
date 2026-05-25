@@ -1,32 +1,44 @@
 import bcrypt from "bcrypt";
-
-export const users = [];
+import User from "../models/User.model.js";
 
 export const createUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    const newUserData = { name, email, password };
 
+    // 1. Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    // 2. Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    newUserData.password = hashedPassword;
-    newUserData.createdAt = new Date().toISOString();
+    // 3. Create new user object
+    const newUser = {
+      name,
+      email,
+      password: hashedPassword,
+    };
+    // 4. Insert user in db
+    const createdUser = await User.create(newUser);
 
-    users.push(newUserData);
-
+    // 4. Send response without the sensitive data
     res.status(201).json({
       success: true,
-      message: "User created successfully",
+      message: "User registered successfully",
     });
   } catch (err) {
-    return res.status(500).json({
-      message: err.message,
+    res.status(500).json({
+      message: "Server error: " + err.message,
     });
   }
 };
 
 export const getAllUsers = async (req, res) => {
   try {
+    const users = await User.find();
+
     res.status(200).json({
       success: true,
       users,
