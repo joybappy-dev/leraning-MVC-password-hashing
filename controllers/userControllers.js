@@ -21,7 +21,7 @@ export const createUser = async (req, res) => {
       password: hashedPassword,
     };
     // 4. Insert user in db
-    const createdUser = await User.create(newUser);
+    await User.create(newUser);
 
     // 4. Send response without the sensitive data
     res.status(201).json({

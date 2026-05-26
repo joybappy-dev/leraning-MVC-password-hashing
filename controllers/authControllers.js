@@ -9,7 +9,7 @@ export const loginUser = async (req, res) => {
     const user = await User.findOne({ email: requestedEmmail });
 
     if (!user) {
-      return res.send("Invalid Email Address");
+      return res.send("Invalid credentials");
     }
     const hashedPassword = user.password;
 
@@ -18,13 +18,20 @@ export const loginUser = async (req, res) => {
       plainTextPassword,
       hashedPassword,
     );
-    const isCorrectEmail = requestedEmmail === user.email;
 
-    if (!isCorrectEmail) {
-      return res.send("Invalid Email");
-    }
+    // const isCorrectEmail = requestedEmmail === user.email;
+    // if (!isCorrectEmail) {
+    //   return res.status(401).json({
+    //     success: false,
+    //     message: "Invalid credentials",
+    //   });
+    // }
+
     if (!isCorrectPassword) {
-      return res.send("Invalid Password");
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      });
     }
 
     res.send("Login Successful");
