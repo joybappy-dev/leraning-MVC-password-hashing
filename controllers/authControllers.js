@@ -10,7 +10,7 @@ export const loginUser = async (req, res) => {
     const user = await User.findOne({ email: requestedEmmail });
 
     if (!user) {
-      return res.send("Invalid credentials");
+      return res.send("invalid credentials");
     }
     const hashedPassword = user.password;
 
@@ -31,28 +31,27 @@ export const loginUser = async (req, res) => {
     if (!isCorrectPassword) {
       return res.status(401).json({
         success: false,
-        message: "Invalid credentials",
+        message: "invalid credentials",
       });
     }
 
     // IF password and email is ok then generate token
     const token = jwt.sign(
       {
+        id: user._id,
         email: user.email,
         name: user.name,
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1d",
+        expiresIn: "60s",
       },
     );
 
-    res.status(201).json({
+    res.status(200).json({
       success: true,
       token,
     });
-
-    console.log("token:: ", token);
   } catch (err) {
     res.status(500).json({
       message: err.message,
