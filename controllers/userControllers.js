@@ -26,11 +26,11 @@ export const createUser = async (req, res) => {
     // 4. Send response without the sensitive data
     res.status(201).json({
       success: true,
-      message: "User registered successfully",
+      message: "user registered successfully",
     });
   } catch (err) {
     res.status(500).json({
-      message: "Server error: " + err.message,
+      message: "server error: " + err.message,
     });
   }
 };
