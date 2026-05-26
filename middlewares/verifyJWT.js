@@ -1,3 +1,5 @@
+import jwt from "jsonwebtoken";
+
 // VERIFY JWT
 export const verifyToken = (req, res, next) => {
   try {
