@@ -1,8 +1,8 @@
-bcrypt
+bcrypt✅
 ↓
-JWT
+JWT✅
 ↓
-auth middleware
+auth middleware✅
 ↓
 authorization
 ↓

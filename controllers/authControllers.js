@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import User from "../models/User.model.js";
+import jwt from "jsonwebtoken";
 
 export const loginUser = async (req, res) => {
   try {
@@ -34,10 +35,34 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    res.send("Login Successful");
+    // IF password and email is ok then generate token
+    const token = jwt.sign(
+      {
+        email: user.email,
+        name: user.name,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      },
+    );
+
+    res.status(201).json({
+      success: true,
+      token,
+    });
+
+    console.log("token:: ", token);
   } catch (err) {
     res.status(500).json({
       message: err.message,
     });
   }
+};
+
+export const privateRoute = async (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Here is your secret",
+  });
 };
