@@ -4,7 +4,8 @@ JWT✅
 ↓
 auth middleware✅
 ↓
-authorization
+authorization✅
+    role based access
 ↓
 advanced mongoose
 ↓
