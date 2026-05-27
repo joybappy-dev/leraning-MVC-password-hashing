@@ -3,7 +3,7 @@ import User from "../models/User.model.js";
 
 export const createUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     // 1. Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -19,6 +19,7 @@ export const createUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      role,
     };
     // 4. Insert user in db
     await User.create(newUser);
