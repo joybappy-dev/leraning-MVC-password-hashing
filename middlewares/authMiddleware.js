@@ -23,3 +23,21 @@ export const verifyToken = (req, res, next) => {
     });
   }
 };
+
+export const verifyAdmin = (req, res, next) => {
+  try {
+    if (req.user.role === "admin") {
+      return next();
+    }
+
+    return res.status(403).json({
+      success: false,
+      message: "forbidden access",
+    });
+  } catch (err) {
+    return res.status(403).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
